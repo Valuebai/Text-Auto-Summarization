@@ -11,7 +11,25 @@
   再去找lib下的，如：一开始将textran4zh-run命名为textrank4zh，就会出现报警，说找不到Text4Keyword
 - .py文件命名时不要使用-，不然from import时识别不出来
 
+- 在目录下执行python textrank4zh.py
+- 报错 ModuleNotFoundError: No module named 'conf'
+- 原因：https://stackoverflow.com/questions/52557522/modulenotfounderror-no-module-named-xxx-conf-xxx-is-not-a-package
+
+- 解决方法：在代码最上面中添加
+import os
+import sys
+
+current_dir = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(current_dir)[0]
+sys.path.append(rootPath)
 =================================================='''
+import os
+import sys
+
+current_dir = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(current_dir)[0]
+sys.path.append(rootPath)
+
 from textrank4zh import TextRank4Keyword, TextRank4Sentence, Segmentation
 from conf.GetConfParams import GetConfParams
 
