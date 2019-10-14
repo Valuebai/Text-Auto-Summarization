@@ -125,3 +125,5 @@ dmypy.json
 .pyre/
 
 .idea/
+/data/sqlResult_1558435.csv
+/log/
