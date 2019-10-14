@@ -23,6 +23,7 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(current_dir)[0]
 sys.path.append(rootPath)
 =================================================='''
+from textrank4zh import TextRank4Keyword, TextRank4Sentence, Segmentation
 import os
 import sys
 
@@ -30,7 +31,6 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(current_dir)[0]
 sys.path.append(rootPath)
 
-from textrank4zh import TextRank4Keyword, TextRank4Sentence, Segmentation
 from conf.GetConfParams import GetConfParams
 
 logger = GetConfParams().logger

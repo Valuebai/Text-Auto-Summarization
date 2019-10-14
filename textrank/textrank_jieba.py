@@ -11,8 +11,13 @@
             2、以固定窗口大小(默认为5，通过span属性调整)，词之间的共现关系，构建图
             3、计算图中节点的PageRank，注意是无向带权图
 =================================================='''
-
 import jieba.analyse
+import os
+import sys
+
+current_dir = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(current_dir)[0]
+sys.path.append(rootPath)
 from conf.GetConfParams import GetConfParams
 
 logger = GetConfParams().logger
