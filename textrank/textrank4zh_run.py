@@ -31,16 +31,17 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(current_dir)[0]
 sys.path.append(rootPath)
 
-from conf.GetConfParams import GetConfParams
 
-logger = GetConfParams().logger
+# from conf.GetConfParams import GetConfParams
+#
+# logger = GetConfParams().logger
 
 
 def get_textrank4zh_keywords(contents):
     tr4w = TextRank4Keyword()
     tr4w.analyze(text=contents, lower=True)
 
-    logger.info('使用textrank4zh提取关键词，默认提取10个')
+    # logger.info('使用textrank4zh提取关键词，默认提取10个')
     # print('摘要：')
     # for item in tr4w.get_keywords(10, word_min_len=1):
     #     print(item.word, item.weight)
@@ -53,7 +54,7 @@ def get_textrank4zh_keywords_phrase(contents):
     tr4w = TextRank4Keyword()
     tr4w.analyze(text=contents, lower=True)
 
-    logger.info('使用textrank4zh提取关键词短语，默认提取20个')
+    # logger.info('使用textrank4zh提取关键词短语，默认提取20个')
 
     # print('关键短语：')
     # for phrase in tr4w.get_keyphrases(keywords_num=20, min_occur_num=2):
@@ -68,7 +69,7 @@ def get_textrank4zh_summarization(contents):
     tr4s = TextRank4Sentence()
     tr4s.analyze(text=contents, lower=True, source='all_filters')
 
-    logger.info('使用textrank4zh提取摘要，默认提取5个')
+    # logger.info('使用textrank4zh提取摘要，默认提取5个')
 
     # print('摘要：')
     # for item in tr4s.get_key_sentences(num=5):

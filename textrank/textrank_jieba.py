@@ -18,9 +18,11 @@ import sys
 current_dir = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(current_dir)[0]
 sys.path.append(rootPath)
-from conf.GetConfParams import GetConfParams
 
-logger = GetConfParams().logger
+
+# from conf.GetConfParams import GetConfParams
+#
+# logger = GetConfParams().logger
 
 
 def getKeywords_textrank(text):
@@ -29,7 +31,7 @@ def getKeywords_textrank(text):
     :param text:
     :return:
     """
-    logger.info('使用jieba.analyse.textrank提取关键词，默认提取10个')
+    # logger.info('使用jieba.analyse.textrank提取关键词，默认提取10个')
     topK = 10
     result = []
     jieba.analyse.set_stop_words("../data/stopwords.txt")  # 加载自定义停用词表
