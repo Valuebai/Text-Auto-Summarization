@@ -1,0 +1,18 @@
+---
+# 配置文件请严格遵循yaml语法格式，yaml学习地址 https://ansible-tran.readthedocs.io/en/latest/docs/YAMLSyntax.html
+
+# 数据库的配置
+database_conf:
+  user: root
+  password: AI@2019@ai
+  host: rm-8vbwj6507z6465505ro.mysql.zhangbei.rds.aliyuncs.com
+  port: 3306
+
+  # 设置charset为中文，有时候读取到的数据是乱码
+  charset: 'utf8'
+
+  # 连接的库
+  db_name: stu_db
+
+  # 连接的表
+  table_name: news_chinese
