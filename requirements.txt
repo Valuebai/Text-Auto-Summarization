@@ -1,0 +1,4 @@
+jieba==0.39
+textrank4zh==0.3
+Flask==1.1.1
+PyYAML==5.1.2
