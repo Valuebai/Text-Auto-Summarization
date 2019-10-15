@@ -6,6 +6,8 @@
 @Date   ：2019/9/3 10:44
 @Desc   ：封装conf中的参数，方便使用
 
+注意：flask 有自带的log，导入自创建的文件后会覆盖flask自带的
+
 使用：
 # 代码上面添加
 from conf.GetConfParams import GetConfParams
@@ -73,3 +75,4 @@ if __name__ == "__main__":
 
     # 在具体需要的地方
     logger.info('开始连接数据库...')
+    logger.error('错误测试')
