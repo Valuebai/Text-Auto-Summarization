@@ -37,7 +37,7 @@ app.root_path = abspath(dirname(__file__))
 @app.route('/', methods=['GET', 'POST'])
 def index():
     app.logger.info("flask run~~")
-    return render_template('main.html')
+    return render_template('home.html')
 
 
 if __name__ == "__main__":
