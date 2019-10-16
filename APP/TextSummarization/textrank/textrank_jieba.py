@@ -3,27 +3,17 @@
 '''=================================================
 @IDE    ：PyCharm
 @Author ：LuckyHuibo
-@Date   ：2019/10/14 10:55
-@Desc   ：用textrank4zh实现自动摘要, 基于PageRank改进的TextRank算法。
+@Date   ：2019/10/14 14:34
+@Desc   ：
+# 采用TextRank方法提取文本关键词  jieba.analyse.textrank
+       TextRank权重：
+            1、将待抽取关键词的文本进行分词、去停用词、筛选词性
+            2、以固定窗口大小(默认为5，通过span属性调整)，词之间的共现关系，构建图
+            3、计算图中节点的PageRank，注意是无向带权图
 
-注意：
-- python中创建的packages/.py的名字不能跟pip install 的名字一样，不然在路径寻找中会优先找本项目中的packages名字，
-  再去找lib下的，如：一开始将textran4zh-run命名为textrank4zh，就会出现报警，说找不到Text4Keyword
-- .py文件命名时不要使用-，不然from import时识别不出来
-
-- 在目录下执行python textrank4zh.py
-- 报错 ModuleNotFoundError: No module named 'conf'
-- 原因：https://stackoverflow.com/questions/52557522/modulenotfounderror-no-module-named-xxx-conf-xxx-is-not-a-package
-
-- 解决方法：在代码最上面中添加
-import os
-import sys
-
-current_dir = os.path.abspath(os.path.dirname(__file__))
-rootPath = os.path.split(current_dir)[0]
-sys.path.append(rootPath)
+textrank4zh提取关键的效果比jieba的好太多了
 =================================================='''
-from textrank4zh import TextRank4Keyword, TextRank4Sentence, Segmentation
+import jieba.analyse
 import os
 import sys
 
@@ -32,57 +22,33 @@ rootPath = os.path.split(current_dir)[0]
 sys.path.append(rootPath)
 
 
-# from conf.GetConfParams import GetConfParams
+# from conf import GetConfParams
 #
 # logger = GetConfParams().logger
 
 
-def get_textrank4zh_keywords(contents):
-    tr4w = TextRank4Keyword()
-    tr4w.analyze(text=contents, lower=True)
-
-    # logger.info('使用textrank4zh提取关键词，默认提取10个')
-    # print('摘要：')
-    # for item in tr4w.get_keywords(10, word_min_len=1):
-    #     print(item.word, item.weight)
-    result = tr4w.get_keywords(10, word_min_len=1)
-
+def getKeywords_textrank(text):
+    """
+    处理标题和摘要，提取关键词
+    :param text:
+    :return:
+    """
+    # logger.info('使用jieba.analyse.textrank提取关键词，默认提取10个')
+    topK = 10
+    result = []
+    jieba.analyse.set_stop_words(r"C:\AI-NLP\Text-Auto-Summarization\data/stopwords.txt")  # 加载自定义停用词表
+    keywords = jieba.analyse.textrank(text, topK=topK, allowPOS=(
+        'n', 'nz', 'v', 'vd', 'vn', 'l', 'a', 'd'), withWeight=True)  # TextRank关键词提取，词性筛选withWeight=True
+    for item in keywords:
+        # print(item[0], item[1]) #打印关键词及权重 参数必须设置withWeight=True
+        keyword = {'word': item[0], 'weight': "%.4f" % item[1]}
+        result.append(keyword)
     return result
 
 
-def get_textrank4zh_keywords_phrase(contents):
-    tr4w = TextRank4Keyword()
-    tr4w.analyze(text=contents, lower=True)
-
-    # logger.info('使用textrank4zh提取关键词短语，默认提取20个')
-
-    # print('关键短语：')
-    # for phrase in tr4w.get_keyphrases(keywords_num=20, min_occur_num=2):
-    #     print(phrase)
-
-    result = tr4w.get_keyphrases(keywords_num=20, min_occur_num=2)
-
-    return result
-
-
-def get_textrank4zh_summarization(contents):
-    tr4s = TextRank4Sentence()
-    tr4s.analyze(text=contents, lower=True, source='all_filters')
-
-    # logger.info('使用textrank4zh提取摘要，默认提取5个')
-
-    # print('摘要：')
-    # for item in tr4s.get_key_sentences(num=5):
-    #     print('文本位置：{}, 权重：{}，内容：{}'.format(item.index, item.weight, item.sentence))  # index是语句在文本中位置，weight是权重
-
-    result = tr4s.get_key_sentences(num=5)
-
-    return result
-
-
-if __name__ == "__main__":
-    text = """
-    中新网北京12月1日电(记者 张曦) 30日晚，高圆圆和赵又廷在京举行答谢宴，诸多明星现身捧场，其中包括张杰(微博)、谢娜(微博)夫妇、何炅(微博)、蔡康永(微博)、徐克、张凯丽、黄轩(微博)等。
+if __name__ == '__main__':
+    data = """
+中新网北京12月1日电(记者 张曦) 30日晚，高圆圆和赵又廷在京举行答谢宴，诸多明星现身捧场，其中包括张杰(微博)、谢娜(微博)夫妇、何炅(微博)、蔡康永(微博)、徐克、张凯丽、黄轩(微博)等。
 
 30日中午，有媒体曝光高圆圆和赵又廷现身台北桃园机场的照片，照片中两人小动作不断，尽显恩爱。事实上，夫妻俩此行是回女方老家北京举办答谢宴。
 
@@ -120,11 +86,7 @@ if __name__ == "__main__":
 
 记者注意到，虽然答谢宴于晚上8点开始，但从9点开始就陆续有宾客离开，每个宾客都手持礼物，有宾客大方展示礼盒，只见礼盒上印有两只正在接吻的烫金兔子，不过工作人员迅速赶来，拒绝宾客继续展示。
 
-    """
-    keyWords = get_textrank4zh_keywords(text)
+           """
+    # 关键词提取
+    keyWords = getKeywords_textrank(data)
     print(keyWords)
-    keyWords_phrase = get_textrank4zh_keywords_phrase(text)
-    print(keyWords_phrase)
-
-    extract = get_textrank4zh_summarization(text)
-    print(extract)

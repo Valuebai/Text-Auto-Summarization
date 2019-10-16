@@ -15,61 +15,43 @@ backupCount=15: 保留15天的日志
 encoding=UTF-8: 使用UTF-8的编码来写日志
 utc=True: 使用UTC+0的时间来记录 （一般docker镜像默认也是UTC+0）
 =================================================='''
+import os
+import json
 import logging
 from logging.handlers import TimedRotatingFileHandler
-
-import json
 from flask import Flask, render_template, request
-from textrank.textrank_jieba import getKeywords_textrank
-from textrank.textrank4zh_run import get_textrank4zh_summarization
 
-app = Flask(__name__)
+from APP.SpeechExtraction.speech_blueprint import app_extraction
+from APP.TextSummarization.text_blueprint import app_summarization
+from os.path import abspath, dirname
+
+app = Flask("__main__", static_folder='static', template_folder='templates')
+
+# 使用blueprint注册蓝图分隔视图
+app.register_blueprint(app_extraction, url_prefix="/SpeechExtraction")
+app.register_blueprint(app_summarization, url_prefix="/TextSummarization")
+app.root_path = abspath(dirname(__file__))
 
 
-@app.route('/')
+# 展示网站主页
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    app.logger.info("Info message")
-    app.logger.warning("Warning msg")
-    app.logger.error("Error msg!!!")
-    return 'ok'
-
-
-# 关键字提取
-@app.route('/extract/keyword', methods=['GET'])  # 后面需要改为post
-def extract_keyword():
-    try:
-        prefix = request.json.get('prefix')
-        result = getKeywords_textrank(prefix)
-        res = {'code': 1, 'message': '数据获取成功', 'data': result}
-    except Exception as e:
-        app.logger.error(e)
-        res = {'code': 0, 'message': '系统内部错误，请联系管理员', 'data': ''}
-
-    return json.dumps(res, ensure_ascii=False, indent=4)
-
-
-# 文本摘要提取
-@app.route('/extract/summarization', methods=['GET'])  # 后面需要改为post
-def extract_summarization():
-    try:
-        prefix = request.json.get('prefix')
-        result = get_textrank4zh_summarization(prefix)
-        res = {'code': 1, 'message': '数据获取成功', 'data': result}
-    except Exception as e:
-        app.logger.error(e)
-        res = {'code': 0, 'message': '系统内部错误，请联系管理员', 'data': ''}
-
-    return json.dumps(res, ensure_ascii=False, indent=4)
+    app.logger.info("flask run~~")
+    return render_template('main.html')
 
 
 if __name__ == "__main__":
     app.debug = True
+
+    # File and Console handler and formtter
     formatter = logging.Formatter(
         "[%(asctime)s][%(pathname)s: line(%(lineno)d)][%(levelname)s][thread:%(thread)d] - %(message)s")
+    if not os.path.exists('./logs'):   os.mkdir('./logs')
     handler = TimedRotatingFileHandler(
-        "./log/flask.log", when="D", interval=1, backupCount=15,
+        "./logs/flask.log", when="D", interval=1, backupCount=15,
         encoding="UTF-8", delay=False, utc=True)
     app.logger.addHandler(handler)
     handler.setFormatter(formatter)
 
+    # main run
     app.run(host='0.0.0.0', port=8188)

@@ -10,7 +10,16 @@
 1. Extraction 抽取式
 2. Abstraction 生成式
 
+## Blueprint，分隔视图
+**当你的Flask项目膨胀到一定规模的时候， 全部都写到主入口之中。 一定需要按照模块进行拆分。 Blueprint(蓝图)就是这个时候需要使用的东西。**
 
+- [Blueprint 之中使用日志](https://www.flyml.net/2018/12/12/flask-logging-usage-demo/)
+- 完成blueprint框架后，在APP中的blueprint中
+```python
+from flask import current_app
+# 在需要的地方
+current_app.logger.info("simple page info...")
+```
 
 ## 部署指南
 **1. linux sh & nohup后台运行脚本**
@@ -46,6 +55,31 @@
     - https://blog.csdn.net/daniel_ustc/article/details/9070357
 
 
+**4. 使用gunicorn 部署flask服务
+  - 1）创建脚本vim gunicorn.sh
+  - 2）填写内容并保存：
+    - conda activate just_do_it （在linux上创建好自己的环境，可选）
+    - nohup gunicorn -w 4 -b 0.0.0.0:8001 run:app & （不带日志）
+    - nohup gunicorn -w 4 -b 0.0.0.0:8001 run:app > gunicorn.log 2>&1 & （带日志）
+    
+  - 3）运行：sh gunicorn.sh 或者 . gunicorn.sh
+  
+```md
+简单地，gunicorn可以通过gunicorn -w 4 -b 0.0.0.0:8001 run:app启动一个Flask应用。其中,
+
+-w 4是指预定义的工作进程数为4，
+-b 127.0.0.1:4000指绑定地址和端口
+run是flask的启动python文件，app则是flask应用程序实例
+
+其中run.py中文件的可能形式是：
+# run.py
+from flask import Flask
+app = Flask(__name__)
+
+参考文章：
+gunicorn部署Flask服务 https://www.jianshu.com/p/fecf15ad0c9a
+https://www.cnblogs.com/gaidy/p/9784919.html
+```
 
 
 
@@ -57,3 +91,53 @@
 - 第一步：安装包 pip install pipreqs
 - 第二步：在对应路径cmd，输入命令生成 requirements.txt文件：pipreqs ./ --encoding=utf8 --force 避免中文路径报错
 - 第三步：下载该代码后直接pip install -r requirements.txt
+
+
+## linux 知识学习-根据端口号查找项目路径方法
+### 只知道端口号
+1. 首先根据端口号查找进程
+```
+netstat -nltp
+或者
+netstat -nltp | grep python
+或者
+netstat -apn |grep 10010
+```
+2. 然后根据进程号去查找项目路径
+```
+ps -ef |grep 8567
+```
+3. 如果你第二步没有找到项目路径的话，尝试用
+```
+lsof -p 8567
+```
+### 如果知道项目部署在tomcat里
+如果你的项目在linux 中是部署到tomcat容器里，可以输入下边的命令找到，如下:
+```
+ps anx|grep tomcat
+```
+
+
+## flask 快速完成前端页面
+
+### 参考的页面
+- https://github.com/MustAndy/AI_for_NLP/tree/master/Assi5/Project1_NLP_Become_human/code
+一开始参考里面的js, html布局，前后端的交互
+
+
+- https://github.com/zhangxu999/opinon_extraction 
+- http://39.100.3.165:8421/index.html
+Amazing4 zhangxu1573@qq.com
+主页的模板套得很好看，学习里面的jquery
+
+
+- https://github.com/4keyboardman/StandpointExtract 
+- http://39.100.3.165:8871/
+左右的布局很好看，还有的loading加载的学习
+
+
+- http://39.100.3.165:8567/  
+
+主页UI不好看，但是具体提取页面和生成树形图，学习了
+
+有言论提取，文章摘要，情感分析
