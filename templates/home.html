@@ -20,81 +20,30 @@
 
 
 <body>
-<div class="container">
-    <div>
-        <a onclick="Example1()" href="#">
-            <h6>范例1 <span class="glyphicon glyphicon-star"></span></h6></a>
-
-        <a onclick="Example2()" href="#">
-            <h6>范例2 <span class="glyphicon glyphicon-star"></span></h6></a>
-        <a onclick="Example3()" href="#">
-            <h6>范例3 <span class="glyphicon glyphicon-star"></span></h6></a>
-    </div>
-
-    <form action="" name="form1" method="POST">
-        <h2>请输入内容:</h2>
-        <p><textarea class="form-control" id="inputText" rows="7"></textarea></p>
-        <input type="submit" onclick="fun_keyword()" name="keyword" value="Go提取关键词"/>
-        <input type="submit" onclick="fun_summarization()" name="summarization" value="Go提取文本摘要"/>
-    </form>
-
-    <form action="http://localhost:8188/result" method="POST">
-        <h2>结果显示:</h2>
-        <p><textarea class="form-control" id="showresult" rows="7" name="nm"></textarea></p>
-    </form>
-
-    {% block content %}
-    <div class="container">
-        {% block page_content %}{% endblock %}
-    </div>
-    {% endblock %}
-
+<H1 align="center">Welcome to my Home</H1>
+<div style="text-align: center;">
+    <img src="https://user-images.githubusercontent.com/9695113/58942751-f4a5a100-87b0-11e9-9116-915f85c5f65a.jpg"
+         alt="上海鲜花港 - 郁金香"/>
+</div>
+<div class="absoluteCenter">
+    <H3 align="center">耶和华是我的牧者，我必不致缺乏。</H3>
+    <H3 align="center">他使我躺卧在青草地上，领我在可安歇的水边。</H3>
+    <H3 align="center">他使我的灵魂苏醒，为自己的名引导我走义路。</H3>
+    <H3 align="center">我虽然行过死荫的幽谷，也不怕遭害，因为你与我同在；你的杖，你的竿，都安慰我。</H3>
+    <H3 align="center">在我敌人面前，你为我摆设筵席；你用油膏了我的头，使我的福杯满溢。</H3>
+    <H3 align="center">我一生一世必有恩惠慈爱随着我；我且要住在耶和华的殿中，直到永远。</H3>
+    <H3 align="center"> ——诗篇 23</H3>
 </div>
 
-<div id="footer" style="background-color:rgba(64,181,255,0.33);clear:both;text-align:center;">
+<!-- 添加底部信息 -->
+<div id="footer"
+     style="background-color:rgba(64,181,255,0.33);clear:both;text-align:center;margin-top: 20px;margin-bottom: 30px;margin-left: 0px;margin-right: 0px;">
     <a href="https://github.com/Valuebai/">2019 &copy; github.com/valuebai</a>
 </div>
 
-<!--script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script-->
+
 <script type=text/javascript src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 
-<script>
-    function Example1() {
-        document.getElementById("inputText").value = "中新网6月23日电 (记者潘旭临) 意大利航空首席商务官乔治先生22日在北京接受中新网记者专访时表示，意航确信中国市场对意航的重要性，目前意航已将发展中国市场提升到战略层级的高度，未来，意航将加大在华布局，提升业务水平。\
-               到意大利航空履职仅7个月的乔治，主要负责包括中国市场在内的亚太业务。乔治称，随着对华业务不断提升，意航明年可能会将每周4班提高到每天一班。同时，意航会借罗马新航站楼启用之际，吸引更多中国旅客到意大利旅游和转机。\
-               此外，还将加大对北京直飞航线的投资，如翻新航班座椅，增加电视中有关中国内容的娱乐节目、提高机上中文服务、餐饮服务、完善意航中文官方网站，提升商务舱和普通舱的舒适度等。"
-        document.getElementById("inputText").text = "中新网6月23日电 (记者潘旭临) 意大利航空首席商务官乔治先生22日在北京接受中新网记者专访时表示，意航确信中国市场对意航的重要性，目前意航已将发展中国市场提升到战略层级的高度，未来，意航将加大在华布局，提升业务水平。\
-               到意大利航空履职仅7个月的乔治，主要负责包括中国市场在内的亚太业务。乔治称，随着对华业务不断提升，意航明年可能会将每周4班提高到每天一班。同时，意航会借罗马新航站楼启用之际，吸引更多中国旅客到意大利旅游和转机。\
-               此外，还将加大对北京直飞航线的投资，如翻新航班座椅，增加电视中有关中国内容的娱乐节目、提高机上中文服务、餐饮服务、完善意航中文官方网站，提升商务舱和普通舱的舒适度等。"
-    }
-
-    function Example2() {
-        document.getElementById("inputText").value = "王靖清说他是一个很好看的人，林诗宁表示她也是这么想的。"
-        document.getElementById("inputText").text = "王靖清说他是一个很好看的人，林诗宁表示她也是这么想的。"
-    }
-
-    function Example3() {
-        document.getElementById("inputText").value = "中新网6月23日电 (记者潘旭临) 意大利航空首席商务官乔治先生22日在北京接受中新网记者专访时表示，意航确信中国市场对意航的重要性，目前意航已将发展中国市场提升到战略层级的高度，未来，意航将加大在华布局，提升业务水平。\
-               到意大利航空履职仅7个月的乔治，主要负责包括中国市场在内的亚太业务。乔治称，随着对华业务不断提升，意航明年可能会将每周4班提高到每天一班。同时，意航会借罗马新航站楼启用之际，吸引更多中国旅客到意大利旅游和转机。\
-               此外，还将加大对北京直飞航线的投资，如翻新航班座椅，增加电视中有关中国内容的娱乐节目、提高机上中文服务、餐饮服务、完善意航中文官方网站，提升商务舱和普通舱的舒适度等。"
-    }
-
-    function fun_keyword() {
-        text = document.getElementById("inputText").text;
-        if (text == undefined)
-            window.alert("请输入内容，或点击范例！");
-        document.form1.action = "/extract/keyword";
-        text.submit();
-    }
-
-    function fun_summarization() {
-        text = document.getElementById("inputText").text;
-        if (text == undefined)
-            window.alert("请输入内容，或点击范例！");
-        document.form1.action = "/extract/summarization";
-        text.submit();
-    }
-</script>
 
 </body>
 

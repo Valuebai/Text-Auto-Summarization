@@ -10,6 +10,9 @@
 1. Extraction 抽取式
 2. Abstraction 生成式
 
+## 项目效果
+http://39.100.3.165:8188/TextSummarization/
+
 ## Blueprint，分隔视图
 **当你的Flask项目膨胀到一定规模的时候， 全部都写到主入口之中。 一定需要按照模块进行拆分。 Blueprint(蓝图)就是这个时候需要使用的东西。**
 
@@ -81,7 +84,39 @@ gunicorn部署Flask服务 https://www.jianshu.com/p/fecf15ad0c9a
 https://www.cnblogs.com/gaidy/p/9784919.html
 ```
 
+### **杀死linux上gunicorn的进程**
+**方法一**
+1. netstat -nltp | grep 8188
+能看到类似下面的：
+tcp        0      0 0.0.0.0:8188            0.0.0.0:*               LISTEN      23422/gunicorn: mas
 
+2. kill -9 23422（换成你的）
+
+
+**方法二**
+1. 获取Gunicorn进程树 
+```
+pstree -ap|grep gunicorn
+
+得到的结果如下
+
+Python
+| | |-grep,14519 --color=auto gunicorn
+| -gunicorn,28097 /usr/local/bin/gunicorn query_site.wsgi:application -c ... 
+| |-gunicorn,14226 /usr/local/bin/gunicorn query_site.wsgi:application -c ... 
+| | |-{gunicorn},14229 
+| | |-{gunicorn},14230 
+...
+
+```
+
+2. 重启Gunicorn任务
+
+kill -HUP 14226
+
+3. 退出Gunicorn任务
+
+kill -9 28097
 
 
 
