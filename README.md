@@ -120,6 +120,14 @@ ps anx|grep tomcat
 
 ## flask 快速完成前端页面
 
+
+### 无法加载js, css等路径加载问题（在pycharm里面../ 没有报错，实际部署后404）
+
+解决：将../ 改为 ./ ，因为是在text_blueprint.py文件启动的，python是动态加载，默认了此时的路径是text_blueprint.py的，用../会找不到对应的static
+      
+引申：在pycharm用../ 这种返回上一级的方法去单独执行一个文件，在pycharm里面是正常的，但是在windows命令行或者linux的部署中，是从run.py启动的，往往会出现这种情况
+
+
 ### 参考的页面
 - https://github.com/MustAndy/AI_for_NLP/tree/master/Assi5/Project1_NLP_Become_human/code
 一开始参考里面的js, html布局，前后端的交互
@@ -141,3 +149,8 @@ Amazing4 zhangxu1573@qq.com
 主页UI不好看，但是具体提取页面和生成树形图，学习了
 
 有言论提取，文章摘要，情感分析
+
+
+### D3.js (Data-Driven Documents) 数据可视化
+
+[D3 的全称是（Data-Driven Documents），顾名思义可以知道是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的](http://wiki.jikexueyuan.com/project/d3wiki/introduction.html)

@@ -54,7 +54,17 @@ def get_textrank4zh_keywords(contents):
     # print('摘要：')
     # for item in tr4w.get_keywords(10, word_min_len=1):
     #     print(item.word, item.weight)
-    result = tr4w.get_keywords(topK, word_min_len=1)
+    result_topK = tr4w.get_keywords(topK, word_min_len=1)
+
+    result = []
+    # 封装成指定字典格式
+    for i, wp in enumerate(result_topK):
+        result.append({
+            'cat': i,
+            'word': wp['word'],  # 关键字
+            'weight': round(wp['weight'], 4),  # 权值
+            'value': round(wp['weight'] * 10000, 2)  # 用户画图用的，想办法权值差异化更加明显，画图更有区分
+        })
 
     return result
 
@@ -103,6 +113,33 @@ def get_textrank4zh_summarization(contents):
     return result
 
 
+def get_textrank4zh_summarization_str(contents):
+    """
+    获取文本摘要，返回的是string
+    :param contents: string
+    :return: string
+    """
+    # 定义返回前5个文本摘要
+    topK = 5
+    tr4s = TextRank4Sentence()
+    tr4s.analyze(text=contents, lower=True, source='all_filters')
+
+    # logger.info('使用textrank4zh提取摘要，默认提取5个')
+
+    # print('摘要：')
+    # for item in tr4s.get_key_sentences(num=5):
+    #     print('文本位置：{}, 权重：{}，内容：{}'.format(item.index, item.weight, item.sentence))  # index是语句在文本中位置，weight是权重
+
+    result_topK = tr4s.get_key_sentences(num=topK)
+
+    temp = []
+    for item in result_topK:
+        sent = item['sentence']
+        temp.append(sent)
+
+    return ''.join(temp)
+
+
 if __name__ == "__main__":
     text = """
     中新网北京12月1日电(记者 张曦) 30日晚，高圆圆和赵又廷在京举行答谢宴，诸多明星现身捧场，其中包括张杰(微博)、谢娜(微博)夫妇、何炅(微博)、蔡康永(微博)、徐克、张凯丽、黄轩(微博)等。
@@ -149,9 +186,12 @@ if __name__ == "__main__":
     
     """
     keyWords = get_textrank4zh_keywords(text)
-    print(keyWords)
+    print('获取关键词：', keyWords)
     keyWords_phrase = get_textrank4zh_keywords_phrase(text)
-    print(keyWords_phrase)
+    print('获取关键短语：', keyWords_phrase)
 
     extract = get_textrank4zh_summarization(text)
-    print(extract)
+    print('获取摘要：', extract)
+
+    extract_str = get_textrank4zh_summarization_str(text)
+    print('获取摘要sting：', extract_str)

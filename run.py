@@ -36,7 +36,7 @@ app.root_path = abspath(dirname(__file__))
 # 展示网站主页
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    app.logger.info("flask run~~")
+    app.logger.info("$_$ kill_bug_team run, to the moon $_$")
     return render_template('home.html')
 
 
