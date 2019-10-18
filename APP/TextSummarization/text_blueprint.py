@@ -14,7 +14,6 @@ from APP.TextSummarization.textrank.textrank4zh_run import get_textrank4zh_keywo
 
 # setting up template directory
 ASSETS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
-print(ASSETS_DIR)
 
 app_summarization = Blueprint("autosummarization", __name__, static_folder=ASSETS_DIR, template_folder='templates')
 

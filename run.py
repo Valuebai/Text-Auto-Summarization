@@ -16,7 +16,6 @@ encoding=UTF-8: 使用UTF-8的编码来写日志
 utc=True: 使用UTC+0的时间来记录 （一般docker镜像默认也是UTC+0）
 =================================================='''
 import os
-import json
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from flask import Flask, render_template, request
