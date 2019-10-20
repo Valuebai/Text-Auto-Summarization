@@ -15,14 +15,12 @@ backupCount=15: 保留15天的日志
 encoding=UTF-8: 使用UTF-8的编码来写日志
 utc=True: 使用UTC+0的时间来记录 （一般docker镜像默认也是UTC+0）
 =================================================='''
-import os
-import logging
-from logging.handlers import TimedRotatingFileHandler
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
 from APP.SpeechExtraction.speech_blueprint import app_extraction
 from APP.TextSummarization.text_blueprint import app_summarization
 from os.path import abspath, dirname
+from conf.logConf import logger
 
 app = Flask("__main__", static_folder='static', template_folder='templates')
 
@@ -35,22 +33,12 @@ app.root_path = abspath(dirname(__file__))
 # 展示网站主页
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    app.logger.info("$_$ kill_bug_team run, to the moon $_$")
+    logger.info("$_$ kill_bug_team run, to the moon $_$")
     return render_template('home.html')
 
 
 if __name__ == "__main__":
     app.debug = True
-
-    # File and Console handler and formtter
-    formatter = logging.Formatter(
-        "[%(asctime)s][%(pathname)s: line(%(lineno)d)][%(levelname)s][thread:%(thread)d] - %(message)s")
-    if not os.path.exists('./logs'):   os.mkdir('./logs')
-    handler = TimedRotatingFileHandler(
-        "./logs/flask.log", when="D", interval=1, backupCount=15,
-        encoding="UTF-8", delay=False, utc=True)
-    app.logger.addHandler(handler)
-    handler.setFormatter(formatter)
 
     # main run
     app.run(host='0.0.0.0', port=8188)

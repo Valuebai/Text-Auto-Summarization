@@ -8,11 +8,13 @@
 =================================================='''
 
 from flask import request, render_template, jsonify, Blueprint
-from flask import current_app
+# from flask import current_app
+
 app_extraction = Blueprint("speech_extraction", __name__, static_folder='static', template_folder='templates')
+from conf.logConf import logger
 
 
 @app_extraction.route('/')
 def index():
-    current_app.logger.info('speech_extraction')
+    logger.info('speech_extraction')
     return 'app_extraction'

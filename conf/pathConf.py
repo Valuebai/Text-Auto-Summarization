@@ -1,6 +1,8 @@
 # 该文件主要设置file path，统一在这里进行修改
 # 使用方法：在其他文件中导入
 
+# 好的经验：在设置路径的地方，比如：加载.txt文件的路径，不要在函数中写死，将路径写成函数的入参
+
 import platform
 from pathlib import Path
 
@@ -34,3 +36,4 @@ ner_model_path = LTP_DATA_DIR / r'ner.model'
 par_model_path = LTP_DATA_DIR / r'parser.model'
 # 语义角色标注模型目录路径，模型目录为`srl`
 srl_model_path = LTP_DATA_DIR / r'pisrl.model'
+

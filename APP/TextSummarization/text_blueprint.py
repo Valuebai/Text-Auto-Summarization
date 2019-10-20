@@ -9,8 +9,9 @@
 import os
 import json
 from flask import request, render_template, jsonify, Blueprint
-from flask import current_app
+# from flask import current_app
 from APP.TextSummarization.textrank.textrank4zh_run import get_textrank4zh_keywords, get_textrank4zh_summarization_str
+from conf.logConf import logger
 
 # setting up template directory
 ASSETS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
@@ -20,7 +21,7 @@ app_summarization = Blueprint("autosummarization", __name__, static_folder=ASSET
 
 @app_summarization.route('/', methods=["GET"])
 def index():
-    current_app.logger.info("run app_summarization")
+    logger.info("run app_summarization")
     return render_template('pro2.html')
 
 
@@ -45,7 +46,7 @@ def extract_summarization():
         # 封装为字典
         res = {'code': 1, 'message': '数据获取成功', 'keywords': result_keywords, 'summarization': result_summarization}
     except Exception as e:
-        current_app.logger.error(e)
+        logger.error(e)
         res = {'code': 0, 'message': '系统内部错误，请联系管理员', 'data': ''}
 
     return json.dumps(res, ensure_ascii=False, indent=4)

@@ -59,7 +59,7 @@ current_app.logger.info("simple page info...")
 1. 进入文件夹目录
 2. python -m venv -h 可查看帮助信息
 3. 下面的
-
+```
 Linux运行命令行
 $ 创建默认环境：python3 -m venv my_venv 
 $ 创建指定环境：python3.6 -m venv  my_venv,  python2 -m venv  my_venv(添加到系统环境变量中)
@@ -76,6 +76,7 @@ $ 退出环境：deactivate
 
 安装项目:
 $ pip install -r requirements.txt
+```
 
 ### 方法二：Windows在PyCharm下创建虚拟环境
 1. 安装并激活PyCharm
