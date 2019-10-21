@@ -45,6 +45,8 @@ def extract_summarization():
 
         # 封装为字典
         res = {'code': 1, 'message': '数据获取成功', 'keywords': result_keywords, 'summarization': result_summarization}
+        logger.info('/show接口数据获取成功')
+
     except Exception as e:
         logger.error(e)
         res = {'code': 0, 'message': '系统内部错误，请联系管理员', 'data': ''}

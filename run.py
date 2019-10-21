@@ -33,12 +33,13 @@ app.root_path = abspath(dirname(__file__))
 # 展示网站主页
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    logger.info('访问home.html')
     logger.info("$_$ kill_bug_team run, to the moon $_$")
     return render_template('home.html')
 
 
 if __name__ == "__main__":
     app.debug = True
-
+    logger.info('项目运行，GO')
     # main run
     app.run(host='0.0.0.0', port=8188)
