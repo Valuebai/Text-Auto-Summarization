@@ -39,6 +39,19 @@ http://39.100.3.165:8188/TextSummarization/
 [ipynb的地址]()
 
 
+## 本地&线上同步推进（后续优化）
+### 业务场景
+本地与线上的 Swagger API 文档的接口的地址是不同的，但都依赖同一个配置文件 **`app\config\setting.py`**。<br>
+而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件，无法用 **`.gitignore`** 做到忽略配置文件，本地和线上配置隔离的效果。 
+
+### 解决
+**`本地`** 和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
+那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`** 中配置输出。
+
+### Demo
+1. `echo "/app/config/dev.py" >> .gitignore` # 追加 Git 忽略提交配置到 .gitignore
+2. 新建 **`app/config/dev.py`** 文件
+
 
 ## Blueprint，分隔视图
 **当你的Flask项目膨胀到一定规模的时候， 全部都写到主入口之中。 一定需要按照模块进行拆分。 Blueprint(蓝图)就是这个时候需要使用的东西。**
@@ -129,7 +142,7 @@ conda常用命令
 - 或者创建虚拟环境安装
 
 ## linux部署指南
-**1. linux sh & nohup后台运行脚本**
+**1. linux sh & nohup后台运行python脚本**
   - 1）创建脚本vim run.sh
   - 2）填写内容并保存：nohup python3 -u  run.py > nohup.log 2>&1 &
   - 3）运行：sh run.sh 或者 . run.sh
@@ -145,7 +158,7 @@ conda常用命令
       - & : 最后一个&， 是让该命令在后台执行。
 ```
 
-**2. 使用gunicorn 部署flask服务**
+**2. 使用gunicorn 部署flask服务** （个人项目推荐使用这个）
   - 1）创建脚本vim gunicorn.sh
   - 2）填写内容并保存：
     - conda activate just_do_it （在linux上创建好自己的环境，可选）
@@ -182,14 +195,19 @@ https://www.cnblogs.com/gaidy/p/9784919.html
     
     https://www.hutuseng.com/article/how-to-kill-all-detached-screen-session-in-linux
 ```
-**4. 使用flask + nginx + uwsgi**
+
+**4. 使用flask + nginx + uwsgi** (不建议，因Flask 与 uWsgi 结合有许多难以处理的 bug)
   - 针对用户访问量大的情况，具体参考下面的文章
     - https://blog.csdn.net/spark_csdn/article/details/80790929
     - https://www.cnblogs.com/Ray-liang/p/4173923.html
     - https://blog.csdn.net/daniel_ustc/article/details/9070357
 
-**5. 使用flask + nginx + gunicorn**
-  - 生产环境很多大公司采用这个方式的，后面有时间再研究
+**5. 使用flask + nginx + gunicorn** （大项目推荐使用这个）
+  - 生产环境很多大公司采用这个方式的，故推荐这个
+  - 因Flask 与 uWsgi 结合有许多难以处理的 bug，故推荐这个
+  - [Flask + Gunicorn + Nginx 部署](https://www.cnblogs.com/Ray-liang/p/4837850.html)
+
+
 
 ## linux上杀死gunicorn的进程
 **方法一**

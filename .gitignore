@@ -133,3 +133,11 @@ dmypy.json
 /my_venv/
 /data/
 /conf/logs/
+/conf/dev.py
+/templates/test_index.html
+/templates/new.html
+/templates/test_refer.html
+/templates/test_base.html
+/templates/result.html
+/templates/test_sample.html
+/templates/404.html
