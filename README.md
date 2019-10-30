@@ -6,6 +6,29 @@
 ![Contributions](https://img.shields.io/badge/Contributions-welcome-ff69b4.svg)
 
 
+<p align="center">
+  <!--快速在当前页面跳转的-->
+  <a href="#quick-start">Quick Start</a> 
+  
+  <a href="# projects">Projects</a> ：•
+  <a href="## Textrank 和 Pagerank">Textrank 和 Pagerank</a> •
+  <a href="## 核心算法详解（采用Extraction）">核心算法详解</a> •
+
+  <a href="#deploy">Deploy</a> ：•
+  <a href="## Ptyhon创建虚拟环境">Ptyhon创建虚拟环境</a> •
+  <a href="## Requirements">Requirements</a>•
+  <a href="## linux部署指南">linux部署指南</a>•
+  <a href="## linux上杀死gunicorn的进程">linux上杀死gunicorn的进程</a>•
+  <a href="## linux根据端口号查找项目路径方法">linux根据端口号查找项目路径方法</a>•
+  
+  <a href="# 前端页面">前端页面</a>
+  
+  <!--a href="http://developers.tron.network">Documentation</a-->
+  <!--a href="#resource">Resource</a-->
+</p>
+
+# quick-start
+
 ## 目前的摘要技术分为
 1. Extraction 抽取式
 2. Abstraction 生成式
@@ -25,20 +48,140 @@
 
 ## 项目使用指南
 
-### git clone https://github.com/Valuebai/Text-Auto-Summarization.git
-### 进入文件夹目录，使用下面的##Ptyhon创建虚拟环境 + ## Requirements 进行安装
-### 服务器部署使用下面的## linux部署指南
+### 1. git clone https://github.com/Valuebai/Text-Auto-Summarization.git
+### 2. 入文件夹目录，使用下面的##Ptyhon创建虚拟环境 + ## Requirements 进行安装
+### 3. 服务器部署使用下面的## linux部署指南
 
 
 ## 项目效果
 http://39.100.3.165:8188/TextSummarization/
 
+# projects
 
 ## Textrank 和 Pagerank
 
 [ipynb的地址]()
 
+## 核心算法详解（采用Extraction）
 
+Extraction自动摘要系统可以大致分为一下独立的三步:
+
+1. 构建一个包含文本主要信息的表征(表现形式)。
+2. 基于构建的表现形式对句子评分。
+3. 根据评分选出构成摘要的句子。
+
+```md
+**表征方法介绍**
+概览：常用的文本表征方式基本可分为两种:
+- topic representation
+- indicator representation。
+
+topic representation就是把文本转化为诠释文本涉及的话题的表征形式，其中topic representation中有比较基本的词频驱动方法、LSA和LDA等等，表征完成后用统计的方法确定阈值来筛选重要的句子。
+indicator representation就是把文本转化成某些特征，例如标题、关键字、句子长度、是否含有某些词汇和句子的位置、KNN等等。然后直接评分排序抽取出重要的句子。
+```
+
+### TextRank用于关键词提取的算法如下：
+
+
+![enter description here](https://www.github.com/Valuebai/my-markdown-img/raw/master/小书匠/1569570219876.png)
+
+
+1. 第一步是把所有文章整合成文本数据
+
+2. 接下来把文本分割成单个句子
+
+3. 然后，我们将为每个句子找到向量表示（词向量）。
+
+4. 计算句子向量间的相似性并存放在矩阵中
+
+5. 然后将相似矩阵转换为以句子为节点、相似性得分为边的图结构，用于句子TextRank计算。
+
+6. 最后，一定数量的排名最高的句子构成最后的摘要。
+
+
+### 使用TextRank4zh来实现textrank获取关键句子，并进行排序
+
+1. 在这里，我们获得了TextRank4zh返回的前5个关键句以及权重
+
+
+### Keywords 关键字
+
+> 关键字是很重要的，如果我们能够比较准确的提取出来关键词/字，然后对关键字/词包含的句子增加其权重；
+
+对整篇文章提取关键字，该关键字可以通过TextRank或者tfidf或者gensim自带的包进行提取。 然后对包含了关键词的句子进行手动加权
+
+
+### Title 标题
+
+> 如果一个文章有标题，那么，其实这个标题已经包含了很多它的摘要信息， 在考虑语义建模的时候，就应该对标题更加重要的考虑；
+
+如果该文本有标题，那么标题可以帮助我们很多。
+在之前，我们计算每个句子与文章整体的相似度是对每个子句与整体文章进行相似度距离计算，
+那么，我们这个时候，就可以把标题的embedding结果拿出来，那么每句话的相似度就是这句话与整体文章的相似度和标题的相似度的一个“结合”。
+
+
+### Position 位置信息
+
+对于句子而言，如果其出现在段落开端，结尾，是否是重要的？ 请做实验证明之，并且代码进行改进。 
+
+> 对于一些文本，文章，例如一个故事的这种文章，那么他的textRank， sentence embedding 会发现，并不会出现很明显有些句子是重要的，有些句子不重要的，如果plot他的曲线的话，我们这个时候就要考虑他的位置，开头，结尾，增加一些权重；
+
+
+### KNN思想进行“平滑”操作
+
+**结合KNN算法的思路，使生成的文本摘要更流畅，更具可读性。根据句子的评分，画出句子评分的分布:** </br>
+
+![enter description here](https://www.github.com/Valuebai/my-markdown-img/raw/master/小书匠/1571914945490.png)
+
+**我们会发现，句子的评分分布是这样起伏很大的尖锐曲线，这样抽取的句子会断断续续，显得很突兀，因此我们需要根据句子自身的重要性和周围句子的重要性，结合KNN算法使得结果更加平滑。**
+
+> 对于一个sub_sentence来说，它的重要性，取决于他本身的重要性和周围的句子(neighbors)的重要性的综合；
+
+例如，当我们有一个列表是 [1, 1, 2, 3, 8, 1, 2]的时候，其中的 8 数值太大，这在我们的摘要中的表现为，
+该句子周围的句子都是不那么相关的，但是该句子单独的相关性很高。 那么，如果把这个句子摘录进来，就会导致“不通顺”.
+ 
+我们可以采用KNN的思想，将这个列表进行重新计算，让它每一个元素的值，等于自己的值和周围的几个值的一个计算结果。 
+
+
+
+### Topic 主题信息-使用Gensim+LDA使用
+
+自学Gensim LDA的使用方法，对于文章获得其主题，然后依据主题对每个句子进行判断，每个句子是否和该主题相关。 
+参考网站： 
+1. Google Search： Gensim LDA
+2. https://github.com/xiaoyichao/-python-gensim-LDA-/blob/master/topicmodel3.py
+
+
+
+### Task 合并以上功能，实现一个单独的函数，该函数接受一个长文本和字数限制，输出一个短文中
+
+```python
+
+# 首先将**三个权重**指数按照一定的系数相加，对所有句子按照权重值进行降序排序：
+# feature_weight = [1,1,1] ，是可调整的权重指数参数，控制关键字，句子位置，句子相似度信息的比重
+
+import collections
+def ranking_base_on_weigth(sentence_with_words_weight,
+                            sentence_with_position_weight,
+                            sentence_score, feature_weight = [1,1,1]):
+    sentence_weight = collections.defaultdict(lambda :0.)
+    for sent in sentence_score.keys():
+        sentence_weight[sent] = feature_weight[0]*sentence_with_words_weight[sent] +\
+                                feature_weight[1]*sentence_with_position_weight[sent] +\
+                                feature_weight[2]*sentence_score[sent]
+
+    sort_sent_weight = sorted(sentence_weight.items(),key=lambda d: d[1], reverse=True)
+    return sort_sent_weight
+
+```
+
+
+文本自动摘要，如何将标题、位置等特征添加到最终的排序中？
+高老师的提取结果中，第一句和最后一句跟原文的不一样，看来是有经过特殊处理的，是怎么处理的呢
+
+
+
+---
 ## 本地&线上同步推进（后续优化）
 ### 业务场景
 本地与线上的 Swagger API 文档的接口的地址是不同的，但都依赖同一个配置文件 **`app\config\setting.py`**。<br>
@@ -64,7 +207,7 @@ from flask import current_app
 current_app.logger.info("simple page info...")
 ```
 
-
+# deploy
 
 ## Ptyhon创建虚拟环境
 
@@ -143,6 +286,8 @@ conda常用命令
 
 @[TOC](文章目录) #在CSDN自动生成目录
 
+
+
 ## linux部署指南
 ### 1. linux sh & nohup后台运行python脚本
   - 1）创建脚本vim run.sh
@@ -210,7 +355,6 @@ https://www.cnblogs.com/gaidy/p/9784919.html
   - [Flask + Gunicorn + Nginx 部署](https://www.cnblogs.com/Ray-liang/p/4837850.html)
 
 
-
 ## linux上杀死gunicorn的进程
 **方法一**
 1. netstat -nltp | grep 8188
@@ -248,7 +392,22 @@ kill -9 28097
 
 ## linux根据端口号查找项目路径方法
 ### 1. 只知道端口号
-1. 首先根据端口号查找进程
+#### 方法一
+
+**1. 根据端口号查询进程 ，比说6379**
+
+```
+netstat -lnp|grep 6379
+```
+
+**2. 根据进程号，查询寻程序路径**
+```
+ll /proc/2757
+```
+这样就找到了程序路径
+
+#### 方法二
+**1. 首先根据端口号查找进程**
 ```
 netstat -nltp
 或者
@@ -256,11 +415,11 @@ netstat -nltp | grep python
 或者
 netstat -apn |grep 10010
 ```
-2. 然后根据进程号去查找项目路径
+**2. 然后根据进程号去查找项目路径**
 ```
 ps -ef |grep 8567
 ```
-3. 如果你第二步没有找到项目路径的话，尝试用
+**3. 如果你第二步没有找到项目路径的话，尝试用**
 ```
 lsof -p 8567
 ```
@@ -273,7 +432,7 @@ ps anx|grep tomcat
 
 
 
-
+# 前端页面
 
 ## Flask 快速完成前端页面
 
@@ -285,7 +444,14 @@ ps anx|grep tomcat
 引申：在pycharm用../ 这种返回上一级的方法去单独执行一个文件，在pycharm里面是正常的，但是在windows命令行或者linux的部署中，是从run.py启动的，往往会出现这种情况
 
 
-### 参考的页面
+
+## D3.js (Data-Driven Documents) 数据可视化
+
+[D3 的全称是（Data-Driven Documents），顾名思义可以知道是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的](http://wiki.jikexueyuan.com/project/d3wiki/introduction.html)
+
+
+
+## 参考的页面
 - https://github.com/MustAndy/AI_for_NLP/tree/master/Assi5/Project1_NLP_Become_human/code
 一开始参考里面的js, html布局，前后端的交互
 
@@ -307,7 +473,3 @@ Amazing4 zhangxu1573@qq.com
 
 有言论提取，文章摘要，情感分析
 
-
-### D3.js (Data-Driven Documents) 数据可视化
-
-[D3 的全称是（Data-Driven Documents），顾名思义可以知道是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的](http://wiki.jikexueyuan.com/project/d3wiki/introduction.html)
