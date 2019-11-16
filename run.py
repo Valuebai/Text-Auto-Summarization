@@ -22,6 +22,7 @@ from APP.TextSummarization.text_blueprint import app_summarization
 from os.path import abspath, dirname
 from conf.logConf import logger
 from conf.setting import is_dev_mode
+import jieba
 
 app = Flask("__main__", static_folder='static', template_folder='templates')
 
@@ -41,6 +42,7 @@ def index():
 
 if __name__ == "__main__":
     app.debug = True
+    jieba.initialize()
     logger.info('项目运行，GO')
     logger.info('is_dev_mode:{}'.format(is_dev_mode))
     # main run
