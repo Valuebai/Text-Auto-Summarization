@@ -47,3 +47,5 @@ if __name__ == "__main__":
     logger.info('is_dev_mode:{}'.format(is_dev_mode))
     # main run
     app.run(host='0.0.0.0', port=8188)
+
+
