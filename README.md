@@ -21,6 +21,7 @@ http://111.229.74.215:8188/TextSummarization/
 4. 运行项目看效果，python run.py 
 5. 项目运行正常，linux上可使用下面的命令让其在后台运行
  ```
+ # linux 上需要先安装gunicorn -->> pip3 install gunicorn
  sh run.sh 或者 . run.sh 运行
  ```
  

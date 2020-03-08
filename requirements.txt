@@ -22,3 +22,4 @@ whoosh==2.7.4
 wincertstore==0.2
 PyYAML==5.1.2
 zipp==0.6.0
+gunicorn==20.0.4
