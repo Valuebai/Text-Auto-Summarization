@@ -6,6 +6,10 @@
 @Date   ：2019/9/3 10:44
 @Desc   ：封装log日志，方便使用
 
+
+【我的最新logging模板】https://github.com/Valuebai/awesome-python-io/blob/master/conf/log_config.py
+
+
 注意：flask 有自带的log，导入自创建的文件后会覆盖flask自带的
 
 # 将logging.ini文件用python代码写出来
