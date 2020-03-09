@@ -24,6 +24,11 @@ http://111.229.74.215:8188/TextSummarization/
  # linux 上需要先安装gunicorn -->> pip3 install gunicorn
  sh run.sh 或者 . run.sh 运行
  ```
+开启服务器对应8188端口
+firewall-cmd --zone=public --add-port=80/tcp --permanent 永久开启80端口
+firewall-cmd --reload #重启firewall 每次新添加端口都要
+> 参考：[【Linux】CentOS-常用命令&新购买云服务器安装必看](https://github.com/Valuebai/awesome-python-io/issues/1)
+
  
 ### 为Python项目创建独立的虚拟环境（可选）
 [python在win/linux创建虚拟环境](https://blog.csdn.net/luhuibo318/article/details/94011917)
