@@ -7,7 +7,7 @@
 
 ## 项目展示
 
-http://111.229.74.215:8188/TextSummarization/
+http://80.240.22.253:8188/TextSummarization/
 
 ![demo picture](./static/images/demo.jpg)
 
