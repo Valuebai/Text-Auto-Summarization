@@ -9,6 +9,8 @@
 
 http://80.240.22.253:8188/TextSummarization/
 
+或者：[http://flowmoney.top/TextSummarization/](http://flowmoney.top/TextSummarization/)
+
 ![demo picture](./static/images/demo.jpg)
 
 
