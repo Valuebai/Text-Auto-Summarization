@@ -248,6 +248,8 @@ class GetLogger:
         """在logger中添加日志句柄并返回，如果logger已有句柄，则直接返回"""
         # 实例化root日志对象
         log_logger = logging.getLogger('root')
+        # 解决日志重复打印的问题
+        log_logger.handlers.clear()
 
         # 设置日志的输出级别
         log_logger.setLevel(self.logs_level)
