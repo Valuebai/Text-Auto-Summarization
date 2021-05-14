@@ -270,25 +270,3 @@ jieba.initialize()
 
 
 
-## 参考的页面
-- https://github.com/MustAndy/AI_for_NLP/tree/master/Assi5/Project1_NLP_Become_human/code
-一开始参考里面的js, html布局，前后端的交互
-
-
-- https://github.com/zhangxu999/opinon_extraction 
-- http://39.100.3.165:8421/index.html
-Amazing4 zhangxu1573@qq.com
-主页的模板套得很好看，学习里面的jquery
-
-
-- https://github.com/4keyboardman/StandpointExtract 
-- http://39.100.3.165:8871/
-左右的布局很好看，还有的loading加载的学习
-
-
-- http://39.100.3.165:8567/  
-
-主页UI不好看，但是具体提取页面和生成树形图，学习了
-
-有言论提取，文章摘要，情感分析
-
