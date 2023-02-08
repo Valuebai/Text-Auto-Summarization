@@ -8,7 +8,7 @@ Cython==0.29.13
 pyOpenSSL==19.0.0
 Pillow==8.1.1
 brotli==1.0.7
-cryptography==3.3.2
+cryptography==39.0.1
 protobuf==3.10.0
 importlib_metadata==0.23
 ipaddr==2.2.0
